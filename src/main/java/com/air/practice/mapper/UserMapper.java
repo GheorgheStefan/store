@@ -1,8 +1,6 @@
 package com.air.practice.mapper;
 
-import com.air.practice.dto.UserLoginResponse;
-import com.air.practice.dto.UserRegisterRequest;
-import com.air.practice.dto.UserRegisterResponse;
+import com.air.practice.dto.*;
 import com.air.practice.entity.User;
 import com.air.sec.config.AuthTokenGateway;
 import jdk.jfr.Name;
@@ -22,19 +20,14 @@ public interface UserMapper {
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
     User requestToEntity(UserRegisterRequest request, @Context PasswordEncoder passwordEncoder);
 
-    UserRegisterResponse toResponseRegister(User user);
-
-    @Named("encodePassword")
-    default String encodePassword(
-            String password,
-            @Context PasswordEncoder passwordEncoder
-    ) {
-        return passwordEncoder.encode(password);
-    }
-
     @Mapping(target = "token", source = "user", qualifiedByName = "generateToken")
     @Mapping(target = "role", source = "user.role")
     UserLoginResponse toResponseLogin(User user, @Context AuthTokenGateway authTokenGateway);
+
+    UserRegisterResponse toResponseRegister(User user);
+
+    UserDetailsResponse toResponseDetails(User user);
+
 
     @Named("generateToken")
     default String generateToken(User user, @Context AuthTokenGateway authTokenGateway) {
@@ -43,4 +36,12 @@ public interface UserMapper {
                 user.getRole().name());
     }
 
+    @Named("encodePassword")
+    default String encodePassword(String password, @Context PasswordEncoder passwordEncoder) {
+        return passwordEncoder.encode(password);
+    }
+
+    @Mapping(target = "firstName", source = "userUpdateRequest.firstName")
+    @Mapping(target = "lastName", source = "userUpdateRequest.lastName")
+    User updateEntityFromRequest(User user, UserUpdateRequest userUpdateRequest);
 }
