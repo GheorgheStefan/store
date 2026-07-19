@@ -1,9 +1,6 @@
 package com.air.practice.service;
 
-import com.air.practice.dto.UserLoginRequest;
-import com.air.practice.dto.UserLoginResponse;
-import com.air.practice.dto.UserRegisterRequest;
-import com.air.practice.dto.UserRegisterResponse;
+import com.air.practice.dto.*;
 import com.air.practice.mapper.UserMapper;
 import com.air.practice.repository.UserRepository;
 import com.air.sec.config.AuthTokenGateway;
@@ -15,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 
 @Slf4j
@@ -57,5 +57,44 @@ public class UserService {
         }
 
         return userMapper.toResponseLogin(user, authTokenGateway);
+    }
+
+    public UserDetailsResponse getUserDetails(UUID userId) {
+        log.info("Fetching details for user with ID: {}", userId);
+
+        var  user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new UserNotFoundException("User not found.")
+                );
+
+        return userMapper.toResponseDetails(user);
+    }
+
+    public List<UserDetailsResponse> getUserDetailsList() {
+        log.info("Fetching details for all users");
+        return userRepository.findAll().stream()
+                .map(userMapper::toResponseDetails)
+                .toList();
+    }
+
+    public void deleteUser(UUID userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new UserNotFoundException("User not found.")
+                );
+
+        userRepository.deleteById(userId);
+    }
+
+    public UserDetailsResponse updateUser(UUID userId, UserUpdateRequest userUpdateRequest) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new UserNotFoundException("User not found.")
+                );
+
+        var userUpdated = userMapper.updateEntityFromRequest(user, userUpdateRequest);
+        userRepository.save(userUpdated);
+
+        return userMapper.toResponseDetails(userUpdated);
     }
 }
