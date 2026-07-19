@@ -34,7 +34,7 @@
         <dependency>
             <groupId>com.air</groupId>
             <artifactId>sec-lib</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.7</version>
         </dependency>
 
         <dependency>
