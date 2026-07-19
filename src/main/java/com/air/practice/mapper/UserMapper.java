@@ -1,17 +1,13 @@
 package com.air.practice.mapper;
 
-import com.air.practice.dto.*;
+import com.air.practice.dto.users.*;
 import com.air.practice.entity.User;
 import com.air.sec.config.AuthTokenGateway;
-import jdk.jfr.Name;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -28,6 +24,9 @@ public interface UserMapper {
 
     UserDetailsResponse toResponseDetails(User user);
 
+    @Mapping(target = "firstName", source = "userUpdateRequest.firstName")
+    @Mapping(target = "lastName", source = "userUpdateRequest.lastName")
+    User updateEntityFromRequest(User user, UserUpdateRequest userUpdateRequest);
 
     @Named("generateToken")
     default String generateToken(User user, @Context AuthTokenGateway authTokenGateway) {
@@ -40,8 +39,4 @@ public interface UserMapper {
     default String encodePassword(String password, @Context PasswordEncoder passwordEncoder) {
         return passwordEncoder.encode(password);
     }
-
-    @Mapping(target = "firstName", source = "userUpdateRequest.firstName")
-    @Mapping(target = "lastName", source = "userUpdateRequest.lastName")
-    User updateEntityFromRequest(User user, UserUpdateRequest userUpdateRequest);
 }

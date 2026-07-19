@@ -1,12 +1,12 @@
 package com.air.practice.controller;
 
 import com.air.practice.dto.Role;
-import com.air.practice.dto.UserDetailsResponse;
-import com.air.practice.dto.UserLoginRequest;
-import com.air.practice.dto.UserLoginResponse;
-import com.air.practice.dto.UserRegisterRequest;
-import com.air.practice.dto.UserRegisterResponse;
-import com.air.practice.dto.UserUpdateRequest;
+import com.air.practice.dto.users.UserDetailsResponse;
+import com.air.practice.dto.users.UserLoginRequest;
+import com.air.practice.dto.users.UserLoginResponse;
+import com.air.practice.dto.users.UserRegisterRequest;
+import com.air.practice.dto.users.UserRegisterResponse;
+import com.air.practice.dto.users.UserUpdateRequest;
 import com.air.practice.service.UserService;
 import com.air.sec.config.exceptions.EmailAlreadyExistsException;
 import com.air.sec.config.exceptions.UserNotFoundException;
