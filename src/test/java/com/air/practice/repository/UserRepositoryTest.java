@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserRepository Tests")
 class UserRepositoryTest {
 
     @Mock
@@ -38,7 +37,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should persist user with unique email")
     void save_shouldPersistUser() {
         when(userRepository.saveAndFlush(testUser)).thenReturn(testUser);
         when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
@@ -50,7 +48,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should return true when email exists")
     void existsByEmail_shouldReturnTrue_whenEmailExists() {
         when(userRepository.existsByEmail("stefan@example.com")).thenReturn(true);
 
@@ -60,7 +57,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should return false when email does not exist")
     void existsByEmail_shouldReturnFalse_whenEmailDoesNotExist() {
         when(userRepository.existsByEmail("missing@example.com")).thenReturn(false);
 
@@ -70,7 +66,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("Should reject duplicate email")
     void save_shouldRejectDuplicateEmail() {
         User duplicate = User.builder()
                 .firstName("Stefan")
