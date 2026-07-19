@@ -1,4 +1,4 @@
-package com.air.practice.dto;
+package com.air.practice.dto.users;
 
 public record UserUpdateRequest(
         String firstName,

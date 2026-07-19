@@ -1,21 +1,20 @@
 package com.air.practice.service;
 
-import com.air.practice.dto.*;
+import com.air.practice.dto.users.*;
 import com.air.practice.mapper.UserMapper;
 import com.air.practice.repository.UserRepository;
 import com.air.sec.config.AuthTokenGateway;
 import com.air.sec.config.exceptions.EmailAlreadyExistsException;
 import com.air.sec.config.exceptions.InvalidCredentialsException;
 import com.air.sec.config.exceptions.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-
 
 @Slf4j
 @Service
@@ -27,6 +26,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthTokenGateway authTokenGateway;
 
+    @Transactional
     public UserRegisterResponse register(UserRegisterRequest userRegisterRequest ) {
 
         if (userRepository.existsByEmail(userRegisterRequest.email())){
@@ -40,6 +40,7 @@ public class UserService {
         return userMapper.toResponseRegister(user);
     }
 
+    @Transactional
     public UserLoginResponse login(UserLoginRequest userLoginRequest) {
 
         log.info("User with email {} is trying to log in", userLoginRequest.email());
@@ -59,6 +60,7 @@ public class UserService {
         return userMapper.toResponseLogin(user, authTokenGateway);
     }
 
+    @Transactional
     public UserDetailsResponse getUserDetails(UUID userId) {
         log.info("Fetching details for user with ID: {}", userId);
 
@@ -70,6 +72,7 @@ public class UserService {
         return userMapper.toResponseDetails(user);
     }
 
+    @Transactional
     public List<UserDetailsResponse> getUserDetailsList() {
         log.info("Fetching details for all users");
         return userRepository.findAll().stream()
@@ -77,6 +80,7 @@ public class UserService {
                 .toList();
     }
 
+    @Transactional
     public void deleteUser(UUID userId) {
         userRepository.findById(userId)
                 .orElseThrow(() ->
@@ -86,6 +90,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    @Transactional
     public UserDetailsResponse updateUser(UUID userId, UserUpdateRequest userUpdateRequest) {
         var user = userRepository.findById(userId)
                 .orElseThrow(() ->

@@ -1,13 +1,12 @@
 package com.air.practice.controller;
 
 import com.air.practice.dto.Role;
-import com.air.practice.dto.UserLoginRequest;
-import com.air.practice.dto.UserLoginResponse;
+import com.air.practice.dto.users.UserLoginRequest;
+import com.air.practice.dto.users.UserLoginResponse;
 import com.air.practice.service.UserService;
 import com.air.sec.config.exceptions.InvalidCredentialsException;
 import com.air.sec.config.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

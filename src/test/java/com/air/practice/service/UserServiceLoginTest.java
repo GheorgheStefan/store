@@ -1,8 +1,8 @@
 package com.air.practice.service;
 
 import com.air.practice.dto.Role;
-import com.air.practice.dto.UserLoginRequest;
-import com.air.practice.dto.UserLoginResponse;
+import com.air.practice.dto.users.UserLoginRequest;
+import com.air.practice.dto.users.UserLoginResponse;
 import com.air.practice.entity.User;
 import com.air.practice.mapper.UserMapper;
 import com.air.practice.repository.UserRepository;
@@ -10,7 +10,6 @@ import com.air.sec.config.AuthTokenGateway;
 import com.air.sec.config.exceptions.InvalidCredentialsException;
 import com.air.sec.config.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +21,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
