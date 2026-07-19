@@ -1,5 +1,7 @@
 package com.air.practice.controller;
 
+import com.air.practice.dto.UserLoginRequest;
+import com.air.practice.dto.UserLoginResponse;
 import com.air.practice.dto.UserRegisterRequest;
 import com.air.practice.dto.UserRegisterResponse;
 import com.air.practice.service.UserService;
@@ -19,8 +21,14 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserRegisterResponse register(@RequestBody UserRegisterRequest userRegisterRequest){
+    public UserRegisterResponse register(@RequestBody UserRegisterRequest userRegisterRequest) {
         return userService.register(userRegisterRequest);
+    }
+
+    @PostMapping
+    @RequestMapping("/login")
+    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest) {
+        return userService.login(userLoginRequest);
     }
 
 }
